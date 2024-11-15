@@ -1,7 +1,4 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from uuid import uuid4
 from django.contrib.postgres.indexes import HashIndex
 from django.contrib.auth.models import User
@@ -22,4 +19,4 @@ class StorageProduct(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     storage = models.ForeignKey(Storage, on_delete=models.CASCADE, null=True)
-    stock = models.IntegerField()
+    stock = models.PositiveIntegerField()

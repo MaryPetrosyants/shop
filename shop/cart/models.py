@@ -12,7 +12,7 @@ class Cart(models.Model):
     __tablename__ = 'cart'
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    total_price = models.DecimalField(max_digits=6, decimal_places=2)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2, default='0.00')
 
     class Meta:
         indexes = (HashIndex(fields=('id',)),)
@@ -23,4 +23,4 @@ class CartProduct(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
-    count = models.IntegerField()
+    count = models.PositiveIntegerField(default=1)

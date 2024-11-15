@@ -19,7 +19,7 @@ class Product(models.Model):
     category = models.CharField(choices=CATEGORY)
     name = models.CharField()
     description = models.CharField()
-    image = models.ImageField(upload_to='products/images/')
+    image = models.ImageField(upload_to='products/images/', blank=False, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     salesman = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
