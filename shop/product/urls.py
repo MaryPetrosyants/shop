@@ -3,7 +3,7 @@ from .views import ProductView
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
 
-router = SimpleRouter()
+router = DefaultRouter()
 router.register(r'product', ProductView, basename='product')
 
 urlpatterns = [

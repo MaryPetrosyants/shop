@@ -157,6 +157,8 @@ MEDIA_URL = '/media/'
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+    'DEFAULT_VERSION': 'v1',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
@@ -165,13 +167,25 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ]
+    
 }
 
 REST_REGISTRATION = {
-    'REGISTER_VERIFICATION_ENABLED': False,
-    'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
-    'RESET_PASSWORD_VERIFICATION_ENABLED': False,
+    'REGISTER_VERIFICATION_ENABLED': True,
+    'REGISTER_EMAIL_VERIFICATION_URL': 'http://localhost:8000/verify-email/',
+    'REGISTER_VERIFICATION_URL': 'http://localhost:8000/verify-email/',
+    'RESET_PASSWORD_VERIFICATION_URL': 'http://localhost:8000/reset-password/',
+    'VERIFICATION_FROM_EMAIL': 'noreply@example.com', 
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp4dev'
+EMAIL_PORT = 25  
+EMAIL_USE_TLS = False   
+EMAIL_USE_SSL = False 
+EMAIL_HOST_USER = '' 
+EMAIL_HOST_PASSWORD = '' 
+DEFAULT_FROM_EMAIL = 'noreply@example.com'
 
 
 # SIMPLE_JWT = {

@@ -22,9 +22,36 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    restart: always
+    ports:
+      # Change the number before : to the port the web interface should be accessible on
+      - '5000:80'
+      # Change the number before : to the port the SMTP server should be accessible on
+      - '25:25'
+      # Change the number before : to the port the IMAP server should be accessible on
+      - '143:143'
+    volumes:
+      # This is where smtp4dev stores the database..
+        - smtp4dev-data:/smtp4dev
+    environment:
+
+     
+      #Specifies the server hostname. Used in auto-generated TLS certificate if enabled.
+      - ServerOptions__HostName=smtp4dev
+      - RelayOptions__SmtpPort=25
+         #The username for the SMTP server used to relay messages. If "" no authentication is attempted.
+      - RelayOptions__Login=
+
+      #The password for the SMTP server used to relay messages
+      - RelayOptions__Password=
+
+
 
 volumes:
   pgdata: {}
+  smtp4dev-data:
 
   
   
