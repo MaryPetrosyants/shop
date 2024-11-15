@@ -23,4 +23,4 @@ class CartProduct(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
-    count = models.PositiveIntegerField(default=1)
+    count = models.PositiveIntegerField(default=0)

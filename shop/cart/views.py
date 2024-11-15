@@ -12,15 +12,19 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.authentication import SessionAuthentication
+from decimal import Decimal
 
 class CartView(viewsets.ModelViewSet):
-    
+
     permission_classes = [IsAuthenticated]
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+
     def get_queryset(self):
         user = self.request.user
-        return Cart.objects.filter(user=user) 
+        return Cart.objects.filter(user=user)
+
+    
 
     @action(detail=True, methods=['post'], url_path='create-order')
     def create_order(self, request, pk=None):
@@ -45,13 +49,17 @@ class CartView(viewsets.ModelViewSet):
         print(storage_product.stock)
         OrderProduct.objects.bulk_create(order_products)
         order_serializer = OrderSerializer(order)
-        self.clear_cart()
+        CartProduct.objects.filter(cart=cart).delete()
+        cart.total_price = Decimal("0.00")
+        cart.save()
         return Response(order_serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['delete'], url_path='clear-cart')
-    def clear_cart(self, pk=None):
+    def clear_cart(self, request, pk=None):
         cart = self.get_object()
         CartProduct.objects.filter(cart=cart).delete()
+        cart.total_price = Decimal("0.00")
+        cart.save()
         return Response({"message": "Cart has been cleared."}, status=status.HTTP_204_NO_CONTENT)
 
 
