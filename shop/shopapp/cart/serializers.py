@@ -13,7 +13,7 @@ class CartProductSerializer(serializers.ModelSerializer):
         fields = ['id', 'cart', 'product', 'count']
 
 
-class UserSerializer(serializers.ModelSerializer):
+class CartUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username']
@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     cart_product = CartProductSerializer(
         many=True, source='cartproduct_set', read_only=True)
-    user = UserSerializer(read_only=True)
+    user = CartUserSerializer(read_only=True)
 
     class Meta:
         model = Cart

@@ -154,24 +154,27 @@ MEDIA_URL = '/media/'
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
     'DEFAULT_VERSION': 'v1',
+    'ALLOWED_VERSIONS': ('v1',),
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ]
+    
     
 }
 
 REST_REGISTRATION = {
     'REGISTER_VERIFICATION_ENABLED': True,
-    'REGISTER_EMAIL_VERIFICATION_URL': 'http://localhost:8000/verify-email/',
-    'REGISTER_VERIFICATION_URL': 'http://localhost:8000/verify-email/',
-    'RESET_PASSWORD_VERIFICATION_URL': 'http://localhost:8000/reset-password/',
+    'REGISTER_EMAIL_VERIFICATION_URL': 'http://localhost:8000/api/v1/accounts/verify-email/',
+    'REGISTER_VERIFICATION_URL': 'http://localhost:8000/api/v1/accounts/verify-email/',
+    'RESET_PASSWORD_VERIFICATION_URL': 'http://localhost:8000/api/v1/reset-password/',
     'VERIFICATION_FROM_EMAIL': 'noreply@example.com', 
 }
 
@@ -183,6 +186,9 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = '' 
 EMAIL_HOST_PASSWORD = '' 
 DEFAULT_FROM_EMAIL = 'noreply@example.com'
+
+
+
 
 
 # SIMPLE_JWT = {
