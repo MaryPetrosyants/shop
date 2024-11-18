@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, generics
-from storage.models import Storage, StorageProduct
-from storage.serializers import StorageSerializer, StorageProductSerializer
+from shopapp.storage.models import Storage, StorageProduct
+from shopapp.storage.serializers import StorageSerializer, StorageProductSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 
 

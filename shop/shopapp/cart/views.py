@@ -3,11 +3,11 @@ from rest_framework import viewsets
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from cart.serializers import CartSerializer, CartProductSerializer
-from cart.models import Cart, CartProduct
-from order.models import Order, OrderProduct
-from storage.models import Storage, StorageProduct
-from order.serializers import OrderSerializer
+from shopapp.cart.serializers import CartSerializer, CartProductSerializer
+from shopapp.cart.models import Cart, CartProduct
+from shopapp.order.models import Order, OrderProduct
+from shopapp.storage.models import Storage, StorageProduct
+from shopapp.order.serializers import OrderSerializer
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from product.models import Product
+from shopapp.product.models import Product
 from django.contrib.auth.models import User
 
 

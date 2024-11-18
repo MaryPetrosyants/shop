@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, generics, status
-from product.models import Product 
-from cart.models import Cart, CartProduct 
-from product.serializers import ProductSerializer
+from shopapp.product.models import Product 
+from shopapp.cart.models import Cart, CartProduct 
+from shopapp.product.serializers import ProductSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render, redirect
 from rest_framework.response import Response

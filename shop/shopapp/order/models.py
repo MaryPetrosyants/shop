@@ -5,7 +5,7 @@ from django.db import models
 from uuid import uuid4
 from django.contrib.postgres.indexes import HashIndex
 from django.contrib.auth.models import User
-from product.models import Product
+from shopapp.product.models import Product
 import datetime
 
 class Order(models.Model):
