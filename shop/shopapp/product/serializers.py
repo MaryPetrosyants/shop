@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class SalesmanSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['username']
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -16,5 +16,4 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['id', 'category', 'name',
                   'description', 'image', 'price', 'salesman']
-        read_only_fields = ['id', 'category', 'name',
-                            'description', 'image', 'price', 'salesman']
+        read_only_fields = ['id']

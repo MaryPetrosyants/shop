@@ -3,11 +3,14 @@ from .models import OrderProduct, Order
 from shopapp.product.serializers import ProductSerializer
 from django.contrib.auth.models import User
 
+
 class OrderProductSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
+
     class Meta:
         model = OrderProduct
-        fields = ['order', 'product','count']
+        fields = ['id', 'product', 'count']
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,10 +18,20 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username']
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    order_product = OrderProductSerializer(many=True, read_only=True, source='orderproduct_set')
+class OrderReadSerializer(serializers.ModelSerializer):
+    order_product = OrderProductSerializer(
+        many=True, read_only=True, source='orderproduct_set')
     user = UserSerializer(read_only=True)
+
     class Meta:
         model = Order
-        fields = ['id', 'user', 'status', 'create_date', 'paid', 'total_price', 'order_product']
-        read_only_fields = ['id', 'user', 'create_date', 'paid', 'total_price']
+        fields = ['id', 'user', 'status', 'create_date',
+                  'paid', 'total_price', 'order_product']
+        read_only_fields = fields
+
+
+class OrderUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = ['status']

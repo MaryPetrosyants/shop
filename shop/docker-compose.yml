@@ -8,6 +8,7 @@ services:
       - .:/shop 
     depends_on:
       - db
+      - redis
     env_file:
       - .env
 
@@ -47,6 +48,39 @@ services:
       #The password for the SMTP server used to relay messages
       - RelayOptions__Password=
 
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+      
+  celery:
+    build: .
+    user: django-user
+    command: ["celery", "-A", "shop", "worker", "--loglevel=info"]
+    volumes:
+      - .:/shop
+    depends_on:
+      - redis
+      - db
+
+  celerybeat:
+    build: .
+    user: django-user
+    command: ["celery", "-A", "shop", "beat", "--loglevel=info", "--scheduler", "django_celery_beat.schedulers:DatabaseScheduler"]
+    volumes:
+      - .:/shop
+    depends_on:
+      - redis
+      - db
+  flower:
+    image: mher/flower
+    restart: always
+    ports:
+      - "5555:5555"  
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0  
+    depends_on:
+      - redis  
 
 
 volumes:

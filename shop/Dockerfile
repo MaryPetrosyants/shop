@@ -5,7 +5,11 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
 COPY ./requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \ 
+    adduser \                                           
+        --disabled-password \
+        --no-create-home \
+        django-user
 
 WORKDIR /shop
 
@@ -13,4 +17,5 @@ EXPOSE 8000
 
 COPY . .
 
+USER django-user
 

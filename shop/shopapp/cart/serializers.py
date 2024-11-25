@@ -4,13 +4,21 @@ from shopapp.product.serializers import ProductSerializer
 from django.contrib.auth.models import User
 
 
-class CartProductSerializer(serializers.ModelSerializer):
+class CartReadProductSerializer(serializers.ModelSerializer):
 
-    product = ProductSerializer()
+    product = ProductSerializer(read_only=True)
+
+    class Meta:
+        model = CartProduct
+        fields = ['id', 'product', 'count']
+
+
+class CartCreateProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CartProduct
         fields = ['id', 'cart', 'product', 'count']
+        read_only_fields = ['id']
 
 
 class CartUserSerializer(serializers.ModelSerializer):
@@ -20,11 +28,11 @@ class CartUserSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
-    cart_product = CartProductSerializer(
+    cart_product = CartReadProductSerializer(
         many=True, source='cartproduct_set', read_only=True)
     user = CartUserSerializer(read_only=True)
 
     class Meta:
         model = Cart
         fields = ['id', 'user', 'total_price', 'cart_product']
-        read_only_fields = ['id', 'user', 'total_price', 'cart_product']
+        read_only_fields = ['id', 'total_price']
