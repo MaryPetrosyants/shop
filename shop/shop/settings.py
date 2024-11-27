@@ -163,6 +163,7 @@ REST_FRAMEWORK = {
     'ALLOWED_VERSIONS': ('v1',),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 1,
+    'EXCEPTION_HANDLER': 'shopapp.exceptions.custom_exception_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',

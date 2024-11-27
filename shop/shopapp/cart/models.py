@@ -15,8 +15,8 @@ class Cart(models.Model):
     class Meta:
         indexes = (HashIndex(fields=('id',)),)
 
-    def __str__(self) -> str:
-        return f"Cart {self.user.username}"
+    # def __str__(self) -> str:
+    #     return f"Cart {self.user.username}"
 
 
 class CartProduct(models.Model):
