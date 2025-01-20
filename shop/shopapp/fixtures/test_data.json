@@ -1,0 +1,134 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "username": "testuser",
+            "password": "testpass"
+        }
+    },
+    {
+        "model": "shopapp.product",
+        "pk": 1,
+        "fields": {
+            "name": "Test Product",
+            "price": 100
+        }
+    },
+    {
+        "model": "shopapp.storage",
+        "pk": 1,
+        "fields": {
+            "name": "Test Storage",
+            "address": "Test address"
+        }
+    },
+    {
+        "model": "shopapp.storageproduct",
+        "pk": 1,
+        "fields": {
+            "product": 1,
+            "stock": 10,
+            "storage": 1
+        }
+    },
+    {
+        "model": "shopapp.cart",
+        "pk": 1,
+        "fields": {
+            "user": 1
+        }
+    },
+    {
+        "model": "shopapp.cartproduct",
+        "pk": 1,
+        "fields": {
+            "cart": 1,
+            "product": 1,
+            "count": 2
+        }
+    },
+
+
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "username": "otheruser",
+            "password": "otheruserpass"
+            
+        }
+    },
+    {
+        "model": "shopapp.order",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "status": "ACCEPTED",
+            "paid": true,
+            "total_price": 100
+        }
+    },
+    {
+        "model": "shopapp.order",
+        "pk": 2,
+        "fields": {
+            "user": 1,
+            "status": "ACCEPTED",
+            "paid": false,
+            "total_price": 200
+        }
+    },
+    {
+        "model": "shopapp.order",
+        "pk": 3,
+        "fields": {
+            "user": 2,
+            "status": "ACCEPTED",
+            "paid": true,
+            "total_price": 300
+        }
+    },
+    {
+        "model": "shopapp.orderproduct",
+        "pk": 1,
+        "fields": {
+            "product": 1,
+            "order": 1,
+            "count": 1
+        }
+    },
+    {
+        "model": "shopapp.orderproduct",
+        "pk": 2,
+        "fields": {
+            "product": 1,
+            "order": 2,
+            "count": 2
+        }
+    },
+    {
+        "model": "shopapp.orderproduct",
+        "pk": 3,
+        "fields": {
+            "product": 1,
+            "order": 3,
+            "count": 3
+        }
+    },
+
+
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "username": "adminuser",
+            "password": "adminuserpass",
+            "is_staff": true,
+            "is_active": true,
+            "is_superuser": true
+            
+        }
+    }
+   
+]

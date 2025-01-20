@@ -14,17 +14,12 @@ from drf_yasg import openapi
 
 from shopapp.error_schema import error_schema_400, error_schema_403, error_schema_404, error_schema_500
 
-@method_decorator(cache_page(60*15), 'dispatch')
 class CartView(viewsets.ModelViewSet):
-
     permission_classes = [IsAuthenticated]
-    queryset = Cart.objects.all()
     serializer_class = CartSerializer
 
     def get_queryset(self):
-        user = self.request.user
-
-        return Cart.objects.filter(user=user)
+        return Cart.objects.filter(user=self.request.user).select_related('user')
 
     @swagger_auto_schema(
         operation_summary="User cart info",
@@ -110,9 +105,8 @@ class CartView(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 
-@method_decorator(cache_page(60*15), 'dispatch')
 class CartProductView(viewsets.ModelViewSet):
-    queryset = CartProduct.objects.all()
+    queryset = CartProduct.objects.select_related('product', 'cart')
     filter_backends = [filters.SearchFilter]
     search_fields = ['product__name']
 

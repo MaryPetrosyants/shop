@@ -11,9 +11,8 @@ from drf_yasg import openapi
 
 from shopapp.error_schema import error_schema_400, error_schema_403, error_schema_404, error_schema_500
 
-@method_decorator(cache_page(60*15), 'dispatch')
 class ProductView(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().select_related('salesman')
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['category']

@@ -12,6 +12,7 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from shopapp.error_schema import error_schema_400, error_schema_403, error_schema_404, error_schema_500
+
 class StorageView(viewsets.ModelViewSet):
     queryset = Storage.objects.all()
     serializer_class = StorageSerializer
@@ -108,11 +109,8 @@ class StorageView(viewsets.ModelViewSet):
 
 
 class StorageProductView(viewsets.ModelViewSet):
-    queryset = StorageProduct.objects.all()
+    queryset = StorageProduct.objects.select_related('product', 'storage').all()
     serializer_class = StorageProductSerializer
-
-
-
 
     @swagger_auto_schema(
         operation_summary="All product in the storages",
@@ -121,7 +119,7 @@ class StorageProductView(viewsets.ModelViewSet):
             500: error_schema_500,
         }
     )
-    @method_decorator(cache_page(60 * 15), 'dispatch')
+    # @method_decorator(cache_page(60 * 15), 'dispatch')
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     

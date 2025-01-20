@@ -14,10 +14,14 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAdminUser
+from rest_framework.exceptions import PermissionDenied
 from shopapp.error_schema import error_schema_400, error_schema_403, error_schema_404, error_schema_500
+from django.core.cache import cache
 
-@method_decorator(cache_page(60*15), 'dispatch')
+cache.clear()
+
 class OrderView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()
@@ -65,7 +69,7 @@ class OrderView(viewsets.ModelViewSet):
             user=user,
             total_price=cart.total_price,
         )
-        cart_products = CartProduct.objects.filter(cart=cart)
+        cart_products = CartProduct.objects.filter(cart=cart).select_related('product')
         order_products = []
         for cart_product in cart_products:
             order_products.append(OrderProduct(
@@ -95,6 +99,8 @@ class OrderView(viewsets.ModelViewSet):
         }
     )
     def update(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise PermissionDenied("Only admins can update orders.")
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -130,7 +136,7 @@ class OrderView(viewsets.ModelViewSet):
             404: error_schema_404,
             500: error_schema_500,
         }
-    )
+    )   
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
 
@@ -168,7 +174,7 @@ class OrderView(viewsets.ModelViewSet):
 
 
 class OrderProductView(viewsets.ModelViewSet):
-    queryset = OrderProduct.objects.all()
+    queryset = OrderProduct.objects.select_related('product', 'order')
     serializer_class = OrderProductSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['product__name']
@@ -225,6 +231,7 @@ class OrderProductView(viewsets.ModelViewSet):
             500: error_schema_500,
         }
     )
+    
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
 

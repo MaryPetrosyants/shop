@@ -13,10 +13,13 @@ class Cart(models.Model):
         max_digits=6, decimal_places=2, default='0.00')
 
     class Meta:
-        indexes = (HashIndex(fields=('id',)),)
+        indexes = [
+            models.Index(fields=['user']),
+            HashIndex(fields=['id']),
+        ]
 
-    # def __str__(self) -> str:
-    #     return f"Cart {self.user.username}"
+    def __str__(self) -> str:
+        return f"Cart {self.user.username}"
 
 
 class CartProduct(models.Model):
@@ -25,6 +28,11 @@ class CartProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
     count = models.PositiveIntegerField(default=0)
-
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['cart']),
+            models.Index(fields=['product']),
+        ]
     def __str__(self) -> str:
         return f"{self.product.name}"

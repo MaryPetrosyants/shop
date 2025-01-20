@@ -2,7 +2,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from .models import Cart, CartProduct
-
+from django.db.models import Sum, F
 
 @receiver(post_save, sender=User)
 def create_user_cart(sender, instance, created, **kwargs):
@@ -15,7 +15,7 @@ def create_user_cart(sender, instance, created, **kwargs):
 def count_total_price(sender, instance, **kwargs):
     cart = instance.cart
     total_price = 0
-    cart_products = CartProduct.objects.filter(cart=cart)
+    cart_products = CartProduct.objects.filter(cart=cart).select_related('product')
     for cart_product in cart_products:
         total_price += cart_product.product.price * cart_product.count
 
